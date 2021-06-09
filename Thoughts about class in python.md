@@ -93,7 +93,7 @@ First order is 5 * 2 + 5 = 15
 Another order is also 5 * 2  + 5 = 15
 ```
 
-以OneWay为例，他首先初始化MyBaseClass类，给OneWay的 self.value 设为5，然后执行TimesTwo的构造函数，即$self.value = self.value * 2 = 5 * 2$
+以OneWay为例，他首先初始化MyBaseClass类，给OneWay的 self.value 设为5，然后执行TimesTwo的构造函数，即$$self.value = self.value * 2 = 5 * 2$$
 
 AnotherWay“导入”超类的顺序为MyBaseClass, PlusFive , TimeTwo与OneWay“导入”超类的顺序不同，但AnotherWay构造函数执行的顺序与OneWay的构造函数执行顺序一致。
 
@@ -367,14 +367,16 @@ class Speaker(People):
         self.topic = t
 
 
-class Sample(Student, Speaker):
+class Sample(Speaker, Student):
     def __init__(self, n, a, w, g, t):
         super(Sample, self).__init__(n=n, a=a, w=w, g=g, t=t)
 
 
 test = Sample(n="WangTeng", a=18, w=130, g=1000, t="Dont' be a 奋斗逼")
 
-print(test.name, test.age, 1, test.grade, test.topic)
+print("My name is {}, I'm {} years old. Today I want to tell u about {} which grade is {} ".format(test.name, test.age,
+                                                                                                   test.topic,
+                                                                                                   test.grade, ))
 print(Sample.mro())
 
 ```
@@ -382,9 +384,8 @@ print(Sample.mro())
 输出结果Bingo完美解决：
 
 ```
-WangTeng 18 1 1000 Dont' be a 奋斗逼
-[<class '__main__.Sample'>, <class '__main__.Student'>, <class '__main__.Speaker'>, <class '__main__.People'>, <class 'object'>]
+My name is WangTeng, I'm 18 years old. Today I want to tell u about Dont' be a 奋斗逼 which grade is 1000 
+[<class '__main__.Sample'>, <class '__main__.Speaker'>, <class '__main__.Student'>, <class '__main__.People'>, <class 'object'>]
 ```
 
-
-
+`__init__()` & `super()`都各有利弊，super（）不太容易看出来初始化过程，此过程是由超类的导入顺序来决定的，`__init__()`对于编码来说，超类的构造函数运行顺序是由编码者决定的，给编码带来了更多的选择的空间，但可能会导致一些用户没想到的问题。It's up to u how to choose `__init__()` & `super()`
